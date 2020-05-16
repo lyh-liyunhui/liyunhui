@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link th:href="@{/assets/js/morris/morris-0.4.3.min.css}" href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<input id="id" type="hidden" th:value="${goods.id}"/>
+<div id="wrapper">
+    <div th:replace="/thymeleaf/public/ht::ht"></div>
+
+    <div id="page-wrapper">
+        <div id="page-inner">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        商品信息 <small></small>
+                    </h1>
+                </div>
+            </div>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>商品名</td>
+                        <td th:text="${goods?.goodsname}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品成色</td>
+                        <td th:text="${goods.level}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品简介</td>
+                        <td th:text="${goods.remark}"></td>
+                    </tr>
+                    <tr>
+                        <td>商品价格</td>
+                        <td th:text="${goods.price}"></td>
+                    </tr>
+                    <tr>
+                        <td>创建时间</td>
+                        <td th:text="${#dates.format(goods.createtime,'yyyy-MM-dd')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">修改</button>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- Modal -->
+<input id="id" type="hidden" th:value="${goods.id}"/>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改个人信息</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>商品名</td>
+                        <td><input type="text"th:value="${goods?.goodsname}" id="goodsname"></td>
+                    </tr>
+                    <tr>
+                        <td>商品成色</td>
+                        <td><input type="text" th:value="${goods.level}" id="level"></td>
+                    </tr>
+                    <tr>
+                        <td>商品简介</td>
+                        <td><input type="text" th:value="${goods.remark}" id="remark"></td>
+                    </tr>
+                    <tr>
+                        <td>商品价格</td>
+                        <td><input type="text" th:value="${goods.price}" id="price"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="change1">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/assets/js/jquery-1.10.2.js}" src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}" src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}" src="assets/js/jquery.metisMenu.js"></script>
+<script>
+    jQuery(document).ready(function(){
+        $("#change1").on("click",function(){
+            var id=$("#id").val();
+            var goodsname = $("#goodsname").val();
+            var level = $("#level").val();
+            var remark = $("#remark").val();
+            var price = $("#price").val();
+            if(goodsname ==null||goodsname==""){
+                alert("商品名称不为空");
+                return false;
+            }
+            if(level ==null||level==""){
+                alert("商品成色不为空");
+                return false;
+            }
+            if(remark ==null||remark==""){
+                alert("商品简介不为空");
+                return false;
+            }
+            if(price ==null||price==""){
+                alert("商品价格不为空");
+                return false;
+            }
+            $.ajax({
+                type:"POST",
+                contentType:"application/x-www-form-urlencoded",
+                url:"http://localhost:8090/goods/updategoods",
+                data:{
+                    "id":id,
+                    "goodsname":goodsname,
+                    "level":level,
+                    "remark":remark,
+                    "price":price
+                },
+                xhrFields:{withCredentials:true},
+                success:function(data){
+                    if(data.status == "success"){
+                        alert("修改成功");
+                        window.location.reload()
+                    }else{
+                        alert("修改失败");
+                    }
+                },
+                error:function(data){
+                    alert("系统错误");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

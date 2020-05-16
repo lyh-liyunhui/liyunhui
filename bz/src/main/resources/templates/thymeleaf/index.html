@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>index</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+
+    <script th:src="@{/js/bootstrap.min.js}"type="text/javascript"></script>
+    <script th:src="@{/js/index1.js}" type="text/javascript"></script>
+</head>
+<body>
+<div th:replace="/thymeleaf/public/top::top"></div>
+<!--导航栏-->
+<!--<nav class="navbar navbar-default" role="navigation" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand"  th:href="@{/goods/getAllGoods}" href="index.html">高校二手交易平台</a>
+        </div>
+        <div>
+            <form class="navbar-form navbar-left" role="search" th:action="@{/goods/getsearchGoods}">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" id="goodsname" name="goodsname">
+                </div>
+                <button type="submit" class="btn btn-default" >搜索</button>
+            </form>
+            &lt;!&ndash;向右对齐&ndash;&gt;
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        菜单 <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="divider"></li>
+                        <li><a th:href="@{'http://localhost:8090/general/releasegoods'}" href="#">发布商品</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">进入后台</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">进入购物车</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-right" role="search">
+                <button  type="button" class="btn btn-default" id="login">
+                    登录
+                </button>
+                <button type="button" class="btn btn-default" id="register">
+                    注册
+                </button>
+            </form>
+            <p class="navbar-text navbar-right">用户名</p>
+        </div>
+    </div>
+</nav>-->
+<!--巨幕-->
+<div class="jumbotron" style="background: cadetblue;margin-bottom: 0px;" >
+<div class="row">
+    <div class="col-md-8">
+            <h1>欢迎来到高校二手交易平台</h1>
+            <h2>在这里可以找到你想要的精品</h2>
+            <h2><small>Welcome come!</small></h2>
+        </div>
+        <div class="col-md-2 col-md-4" >
+                <div class="thumbnail">
+                    <img th:src="@{/image/timg.jpg}" alt="smallLOGO" style="height: 120px">
+                    <div class="caption">
+                        <h3>关于本站</h3>
+                        <p>该网站成立于2019年</p>
+                        <p><a href="#" class="btn btn-primary" role="button">了解更多</a></p>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div >
+    <ul class="nav nav-tabs navbar navbar-inverse list-inline" >
+        <li role="presentation" ><a th:href="@{/goods/getAllGoods}" href="#" style="margin-left: 500px;">全部</a></li>
+        <li role="presentation" ><a th:href="@{/goods/getsortGoods(id=1)}" href="#">数码科技</a></li>
+        <li role="presentation" ><a th:href="@{/goods/getsortGoods(id=2)}" href="#">影音家电</a></li>
+        <li role="presentation" ><a th:href="@{/goods/getsortGoods(id=3)}" href="#">鞋服配饰</a></li>
+        <li role="presentation"><a  th:href="@{/goods/getsortGoods(id=4)}" href="#">运动代步</a></li>
+        <li role="presentation"><a  th:href="@{/goods/getsortGoods(id=5)}"href="#">书籍文具</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+    <div class="col-md-3" th:each="goods:${pageInfo.list}" style="height: 590px; width:280px;">
+        <div class="thumbnail">
+            <img  th:src="${goods.image}" src="..." alt="..." style="height:350px; width: 350px;">
+            <div class="caption">
+                <h3 th:text="${goods.goodsname}"></h3>
+                <p th:text="${goods.remark}"><p th:text="'￥'+${goods.price}+'元'"></p></p>
+                <p> <a  th:href="@{/goods/selectonegoods(id=${goods.id})}" href="#" class="btn btn-default" role="button">查看详情</a></p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <nav  aria-label="Page navigation"  style="text-align: right">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a th:href="@{/goods/getAllGoods}">首页</a></li>
+            <li><a th:href="@{/goods/getAllGoods(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a></li>
+            <li><a th:href="@{/goods/getAllGoods(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a></li>
+            <li><a th:href="@{/goods/getAllGoods(pageNum=${pageInfo.pages})}">尾页</a></li>
+           <!-- <li><a href="#">5</a></li>-->
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li> <span>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</span></li>
+        </ul>
+    </nav>
+</div>
+<div th:replace="/thymeleaf/public/back :: back"></div>
+</body>
+</html>

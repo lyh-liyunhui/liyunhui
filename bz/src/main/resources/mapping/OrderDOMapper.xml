@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdkj.bz.dao.OrderDOMapper">
+  <resultMap id="BaseResultMap" type="com.gdkj.bz.entity.OrderDO">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="subtotal" jdbcType="DECIMAL" property="subtotal" />
+    <result column="payment" jdbcType="VARCHAR" property="payment" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, goods_id, amount, subtotal, payment, createtime, modifytime
+  </sql>
+  <select id="selectByUserId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_info
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByGoodsId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_info
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllorder"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_info
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from order_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByGoodsId" parameterType="java.lang.Integer">
+    delete from order_info
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gdkj.bz.entity.OrderDO">
+    insert into order_info (id, user_id, goods_id, 
+      amount, subtotal, payment, 
+      createtime, modifytime)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+      #{amount,jdbcType=INTEGER}, #{subtotal,jdbcType=DECIMAL}, #{payment,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gdkj.bz.entity.OrderDO">
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="subtotal != null">
+        subtotal,
+      </if>
+      <if test="payment != null">
+        payment,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="modifytime != null">
+        modifytime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="subtotal != null">
+        #{subtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="payment != null">
+        #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gdkj.bz.entity.OrderDO">
+    update order_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="subtotal != null">
+        subtotal = #{subtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="payment != null">
+        payment = #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gdkj.bz.entity.OrderDO">
+    update order_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      subtotal = #{subtotal,jdbcType=DECIMAL},
+      payment = #{payment,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      modifytime = #{modifytime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

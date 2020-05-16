@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "pagehelper.support-methods-arguments",
+      "type": "java.lang.String",
+      "description": "Description for pagehelper.support-methods-arguments."
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdkj.bz.dao.GoodsDOMapper">
+  <resultMap id="BaseResultMap" type="com.gdkj.bz.entity.GoodsDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goodsname, level, remark, price, sort, user_id, image, createtime, modifytime
+  </sql>
+  <select id="selectByCartGoodsId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectsSearchGoods" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    <where>
+      <if test="goodsname != null">
+      AND goodsname LIKE "%"#{goodsname}"%" or remark LIKE  "%"#{goodsname}"%"
+      </if>
+    </where>
+    order by id
+  </select>
+  <select id="selectListGoods" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+  </select>
+  <select id="selectSortGoods" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where sort =#{sort,jdbcType=INTEGER}
+  </select>
+  <select id="selectByuserId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from goods
+  where id = #{id,jdbcType=INTEGER}
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gdkj.bz.entity.GoodsDO">
+    insert into goods (id, goodsname, level, 
+      remark, price, sort, 
+      user_id, image, createtime, 
+      modifytime)
+    values (#{id,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{sort,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gdkj.bz.entity.GoodsDO" keyProperty="id" useGeneratedKeys="true">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsname != null">
+        goodsname,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="modifytime != null">
+        modifytime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsname != null">
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gdkj.bz.entity.GoodsDO">
+    update goods
+    <set>
+      <if test="goodsname != null">
+        goodsname = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gdkj.bz.entity.GoodsDO">
+    update goods
+    set goodsname = #{goodsname,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      sort = #{sort,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      modifytime = #{modifytime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

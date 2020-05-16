@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link  href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+    <!-- TABLE STYLES-->
+    <link th:href="@{/assets/js/dataTables/dataTables.bootstrap.css}" href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="/thymeleaf/public/ht::ht"></div>
+
+    <div id="page-wrapper" >
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        我的发布商品<small></small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /. ROW  -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            发布商品列表
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>商品名</th>
+                                        <th>成色</th>
+                                        <th>商品详情</th>
+                                        <th>价格</th>
+                                        <th>商品创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="odd gradeX" th:each="s:${list}">
+                                        <td th:text="${s.goodsname}">Trident</td>
+                                        <td th:text="${s.level}">Internet Explorer 4.0</td>
+                                        <td th:text="${s.remark}">Win 95+</td>
+                                        <td th:text="${s.price}" class="center">4</td>
+                                        <td th:text="${#dates.format(s.createtime,'yyyy-MM-dd')}" class="center">X</td>
+                                        <td><a th:href="@{/goods/selectgoods(id=${s.id})}">编辑</a>&nbsp;&nbsp;&nbsp;<a class="del1">取消发布</a></td>
+                                        <input  class="id" type="hidden" th:value="${s.id}"/>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /. PAGE INNER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/assets/js/jquery-1.10.2.js}" src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}" src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}" src="assets/js/jquery.metisMenu.js"></script>
+<!-- DATA TABLE SCRIPTS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').dataTable();
+    });
+</script>
+<script>
+    jQuery(document).ready(function(){
+        $(".del1").on("click", function () {
+        var id=$(this).parent().next().val();
+        $.ajax({
+            type:"POST",
+            contentType:"application/x-www-form-urlencoded",
+            url:"http://localhost:8090/goods/removegoods",
+            data:{
+                "id":id
+            },
+            xhrFields:{withCredentials:true},
+            success:function(data){
+                if(data.status == "success"){
+                    alert("删除商品成功");
+                    window.location.reload();
+                }else{
+                    alert("删除商品失败");
+                }
+            },
+            error:function(data){
+                alert("系统错误");
+            }
+        });
+        return false;
+    });
+    });
+</script>
+
+
+</body>
+</html>

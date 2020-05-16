@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link th:href="@{/assets/js/morris/morris-0.4.3.min.css}" href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="wrapper">
+    <div th:replace="/thymeleaf/public/ht::ht"></div>
+
+    <div id="page-wrapper">
+        <div id="page-inner">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        个人信息 <small></small>
+                    </h1>
+                </div>
+            </div>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>用户名</td>
+                        <td th:text="${user?.username}"></td>
+                    </tr>
+                    <tr>
+                        <td>真实姓名</td>
+                        <td th:text="${user.realname}"></td>
+                    </tr>
+                    <tr>
+                        <td>电话号码</td>
+                        <td th:text="${user.telphone}"></td>
+                    </tr>
+                    <tr>
+                        <td>班级</td>
+                        <td th:text="${user.clazz}"></td>
+                    </tr>
+                    <tr>
+                        <td>学号</td>
+                        <td th:text="${user.sno}"></td>
+                    </tr>
+                    <tr>
+                        <td>宿舍号</td>
+                        <td th:text="${user.dormitory}"></td>
+                    </tr>
+                    <tr>
+                        <td>创建时间</td>
+                        <td th:text="${#dates.format(user.createtime,'yyyy-MM-dd')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">修改</button>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改个人信息</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>用户名</td>
+                        <td><input type="text" th:value="${user.username}" id="username"></td>
+                    </tr>
+                    <tr>
+                        <td>电话号码</td>
+                        <td><input type="text" th:value="${user.telphone}" id="telphone"></td>
+                    </tr>
+                    <tr>
+                        <td>班级</td>
+                        <td><input type="text" th:value="${user.clazz}" id="clazz"></td>
+                    </tr>
+                    <tr>
+                        <td>学号</td>
+                        <td><input type="text" th:value="${user.sno}" id="sno"></td>
+                    </tr>
+                    <tr>
+                        <td>宿舍号</td>
+                        <td><input type="text" th:value="${user.dormitory}" id="dormitory"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="change">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/assets/js/jquery-1.10.2.js}" src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}" src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}" src="assets/js/jquery.metisMenu.js"></script>
+<script>
+    jQuery(document).ready(function(){
+        $("#change").on("click",function(){
+            var telphone = $("#telphone").val();
+            var username = $("#username").val();
+            var clazz = $("#clazz").val();
+            var sno = $("#sno").val();
+            var dormitory = $("#dormitory").val();
+            if(telphone ==null||telphone==""){
+                alert("电话号码不能为空");
+                return false;
+            }
+            if(username ==null||username==""){
+                alert("用户名不能为空");
+                return false;
+            }
+            if(clazz ==null||clazz==""){
+                alert("班级不能为空");
+                return false;
+            }
+            if(sno ==null||sno==""){
+                alert("学号不能为空");
+                return false;
+            }
+            if(dormitory ==null||dormitory==""){
+                alert("宿舍号不能为空");
+                return false;
+            }
+            $.ajax({
+                type:"POST",
+                contentType:"application/x-www-form-urlencoded",
+                url:"http://localhost:8090/user/changeuser",
+                data:{
+                    "telphone":telphone,
+                    "username":username,
+                    "clazz":clazz,
+                    "sno":sno,
+                    "dormitory":dormitory,
+                },
+                xhrFields:{withCredentials:true},
+                success:function(data){
+                    if(data.status == "success"){
+                        alert("修改成功");
+                        window.location.href="http://localhost:8090/user/selectuser";
+                    }else{
+                        alert("修改失败");
+                    }
+                },
+                error:function(data){
+                    alert("系统错误");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

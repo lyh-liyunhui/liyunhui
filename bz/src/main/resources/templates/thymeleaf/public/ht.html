@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link  href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+    <!-- TABLE STYLES-->
+    <link th:href="@{/assets/js/dataTables/dataTables.bootstrap.css}" href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+</head>
+<div th:fragment="ht">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/general/htindex}" href="index.html">后台管理</a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li class="divider"></li>
+                    <li><a href="#" th:href="@{/goods/getAllGoods}"><i class="fa fa-sign-out fa-fw"></i>返回主页</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="#" th:href="@{/user/logout}"><i class="fa fa-sign-out fa-fw"></i>退出登录</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+
+                <li>
+                    <a class="active-menu" th:href="@{/general/htindex}" href="index.html"><i class="fa fa-dashboard"></i>管理首页</a>
+                </li>
+                <li>
+                    <a href=""><i class="fa fa-desktop"></i>个人管理</a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{/user/selectuser}" href="#">个人信息</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/user/GetUserGoods}" href="#">我的发布商品</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/user/GetUserOrder}" href="#">我的订单</a>
+                        </li>
+                    </ul>
+                </li>
+                <shiro:hasRole name="admin"><li>
+                    <a href=""><i class="fa fa-bar-chart-o"></i> 用户管理</a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{/user/GetAllUser}" href="#">用户列表</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href=""><i class="fa fa-qrcode"></i>订单管理</a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{/order/getAllorder}" href="#">订单列表</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href=""><i class="fa fa-table"></i>商品管理</a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{/goods/gethtgoods}" href="#">商品列表</a>
+                        </li>
+                    </ul>
+                </li>
+                </shiro:hasRole>
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+</div>
+<body>
+<!-- /. PAGE WRAPPER  -->
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/assets/js/jquery-1.10.2.js}" src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}" src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}" src="assets/js/jquery.metisMenu.js"></script>
+<!-- DATA TABLE SCRIPTS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').dataTable();
+    });
+</script>
+</body>
+</html>

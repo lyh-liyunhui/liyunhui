@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link th:href="@{/assets/js/morris/morris-0.4.3.min.css}" href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="wrapper">
+    <div th:replace="/thymeleaf/public/ht::ht"></div>
+
+    <div id="page-wrapper">
+        <div id="page-inner">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        管理信息 <small></small>
+                    </h1>
+                </div>
+            </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>当前系统用户名 </td>
+                        <td th:text="${session.user?.username}"></td>
+                    </tr>
+                    <tr>
+                        <td>手机号码</td>
+                        <td th:text="${session.user.telphone}"></td>
+                    </tr>
+                    <tr>
+                        <td>当前身份</td>
+                        <td th:text="${session.user.role.get(0).getRole()}"></td>
+                    </tr>
+                    <tr>
+                        <td>登录时间</td>
+                        <td th:text="${#dates.format(new java.util.Date().getTime(),'yyyy-MM-dd')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/assets/js/jquery-1.10.2.js}" src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}" src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}" src="assets/js/jquery.metisMenu.js"></script>
+
+
+
+</body>
+
+</html>

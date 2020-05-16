@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link  href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+    <!-- TABLE STYLES-->
+    <link th:href="@{/assets/js/dataTables/dataTables.bootstrap.css}" href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="/thymeleaf/public/ht::ht"></div>
+    <div id="page-wrapper" >
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        所有用户列表 <small></small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /. ROW  -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            用户列表
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>真实姓名</th>
+                                        <th>电话号码</th>
+                                        <th>班级</th>
+                                        <th>学号</th>
+                                        <th>宿舍号</th>
+                                        <th>性别(1为男 2为女)</th>
+                                        <th>注册时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="odd gradeX" th:each="q:${userlist}">
+                                        <td th:text="${q.username}">Trident</td>
+                                        <td th:text="${q.realname}">Trident</td>
+                                        <td th:text="${q.telphone}">Trident</td>
+                                        <td th:text="${q.clazz}">Trident</td>
+                                        <td th:text="${q.sno}">Internet Explorer 4.0</td>
+                                        <td th:text="${q.dormitory}">Win 95+</td>
+                                        <td class="center" th:text="${q.gender}">4</td>
+                                        <td class="center" th:text="${#dates.format(q.createtime,'yyyy-MM-dd')}">X</td>
+                                        <shiro:hasRole name="root"><td><a class="del5">删除用户</a></td>
+                                        <input  class="id" type="hidden" th:value="${q.id}"/>
+                                    </shiro:hasRole></tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+        </div>
+        <footer><p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p></footer>
+    </div>
+    <!-- /. PAGE INNER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/assets/js/jquery-1.10.2.js}" src="assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}" src="assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}" src="assets/js/jquery.metisMenu.js"></script>
+<!-- DATA TABLE SCRIPTS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').dataTable();
+    });
+</script>
+<script>
+    jQuery(document).ready(function(){
+        $(".del5").on("click", function () {
+            var id=$(this).parent().next().val();
+            $.ajax({
+                type:"POST",
+                contentType:"application/x-www-form-urlencoded",
+                url:"http://localhost:8090/user/deluser",
+                data:{
+                    "id":id
+                },
+                xhrFields:{withCredentials:true},
+                success:function(data){
+                    if(data.status == "success"){
+                        alert("删除用户成功");
+                        window.location.reload();
+                    }else{
+                        alert("删除失败");
+                    }
+                },
+                error:function(data){
+                    alert("系统错误");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+
+
+</body>
+</html>

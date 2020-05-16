@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>index</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script th:src="@{/js/bootstrap.min.js}"type="text/javascript"></script>
+    <script th:src="@{/js/index1.js}" type="text/javascript"></script>
+    <script th:src="@{/js/cart.js}" type="text/javascript"></script>
+</head>
+<body>
+<div th:replace="/thymeleaf/public/top::top"></div>
+<div class="container">
+    <div style="color: red"><h2>全部商品</h2></div>
+    <div class="row list-unstyled" style="border:solid 1px #f00;padding: 15px;padding-bottom: 0px;">
+        <table class="table">
+        <ui class="list-inline">
+            <li class="col-md-1"><input class="selectAll" type="checkbox">全选</li>
+            <li class="col-md-3">图片</li>
+            <li class="col-md-3">商品</li>
+            <li class="col-md-1">单价</li>
+            <li class="col-md-2">数量</li>
+            <li class="col-md-1">小计</li>
+            <li class="col-md-1">操作</li>
+        </ui>
+        </table>
+    </div>
+    <div class="row list-unstyled" style="border:solid 1px cadetblue;padding: 15px; padding-bottom: 0px;">
+        <table class="table" th:each="goodscart:${session.goodsCart}">
+            <ui class="list-inline">
+                <li class="col-md-1"><input class="check1" type="checkbox"></li>
+                <li class="col-md-3"><img  style="height:150px;width: 150px;" th:src="${goodscart.image}"></li>
+                <li class="col-md-3"><span th:text="${goodscart.goodsname}"></span></li>
+                <li class="col-md-1"><span  th:text="${goodscart.price}"></span></li>
+                <li class="col-md-2"><button class="miner">-</button><span th:text="${goodscart.amount}"></span><button class="adder">+</button></li>
+                <li class="col-md-1" th:with="sum=${goodscart.price}*${goodscart.amount}"><span class="sum" th:text="${sum}"></span></li>
+                <li class="col-md-1"><button class="del" type="button">删除</button></li>
+                <input  class="goodsId" type="hidden" th:value="${goodscart.goodsId}"/>
+            </ui>
+        </table>
+        <hr style="color:black;">
+    </div>
+    <div class="row list-unstyled" style="border:solid 1px cadetblue; padding-top: 5px;">
+        <table class="table">
+            <ui class="list-inline">
+                <li class="col-md-1">支付方式:</li>
+                <li class="col-md-2"><select class="form-control" id="payment" style="text-align: center">
+                    <option value="0">--请选择--</option>
+                    <option value="1">微信支付</option>
+                    <option value="2">支付宝支付</option>
+                </select></li>
+                <li class="col-md-offset-6 col-md-2">已选择<span class="fontColor1" style="color: red"></span>件商品&nbsp;&nbsp;总价￥<span  class="totalPrice" style="color: red">350</span></li>
+                <li class="col-md-1"><span><button type="button" id="settlement" class="btn btn-danger btn-default">结算</button></span></li>
+            </ui>
+        </table>
+    </div>
+</div>
+<div th:replace="/thymeleaf/public/back :: back"></div>
+</body>
+<script>
+    jQuery(document).ready(function(){
+        var list=[];
+        var order={};
+        $("#settlement").on("click",function(){
+            if(confirm("确定下单支付吗？")){
+                var payment = $("#payment").val();
+                $(".check1").each(function(){
+                        if (this.checked == true) {
+                                var goodsId=$($(this).parent().next().next().next().next().next().next().next()).val(); //商品id；
+                                var amount= $($(this).parent().next().next().next().next().children()[1]).html();//商品数量
+                                var subtotal=$($(this).parent().next().next().next().next().next().children()[0]).html();
+                        }
+                        order={
+                        goodsId:goodsId,
+                        amount:amount,
+                        subtotal:subtotal,
+                    };
+                    list.push(order);
+                });
+               /* var orderlist=JSON.stringify(list);*/
+                $.ajax({
+                    type:"POST",
+                    url:"http://localhost:8090/order/addcartorder",
+                    /*contentType:"application/json",*/
+                    /*dataType: "json",*/
+                    /*traditional:true,*/
+                   /* contentType:'application/json;charset=UTF-8',*/  //这里的这行是关键
+                    /*dataType: "json",*/
+                    data:{
+                        list:JSON.stringify(list)
+                        /*payment:payment*/
+                    },
+                    xhrFields:{withCredentials:true},
+                    success:function(data){
+                        if(data.status == "success"){
+                            alert("下单成功");
+                            window.location.reload();
+                        }else{
+                            alert("下单失败");
+                        }
+                    },
+                    error:function(data){
+                        alert("发布失败");
+                    }
+                });
+                return false;
+            }else {
+                alert("取消订单");
+                window.location.reload();
+            }
+        });
+    });
+</script>
+</html>

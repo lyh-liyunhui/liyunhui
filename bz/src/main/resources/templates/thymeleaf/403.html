@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>index</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+
+    <script th:src="@{/js/bootstrap.min.js}"type="text/javascript"></script>
+    <script th:src="@{/js/index1.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="jumbotron" style="background: cadetblue;margin-bottom: 0px;" >
+<div class="row">
+    <div class="col-md-8">
+            <h1>无权限</h1>
+            <h2>请先登录</h2>
+            <a th:href="@{/goods/getAllGoods}">返回主页</a>
+        </div>
+</div>
+</div>
+</body>
+</html>
