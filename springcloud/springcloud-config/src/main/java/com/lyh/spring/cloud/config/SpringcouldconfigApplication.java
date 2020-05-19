@@ -1,17 +1,17 @@
-package com.lyh.spring.cloud.serviceA;
+package com.lyh.spring.cloud.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableHystrix
-public class ServiceAApplication {
+@EnableConfigServer
+public class SpringcouldconfigApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ServiceAApplication.class, args);
+		SpringApplication.run(SpringcouldconfigApplication.class, args);
 	}
 
 }

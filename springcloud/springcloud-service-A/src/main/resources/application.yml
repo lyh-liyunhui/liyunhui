@@ -19,3 +19,9 @@ eureka:
     prefer-ip-address: true
     # 注册中心列表中显示的状态参数
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
