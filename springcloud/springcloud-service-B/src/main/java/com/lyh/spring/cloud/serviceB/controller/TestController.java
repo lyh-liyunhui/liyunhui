@@ -19,4 +19,9 @@ public class TestController {
         return "b to a 访问结果 -----"+result;
 
     }
+
+    @RequestMapping("/hello")
+    public String hello(){
+        return "helloword";
+    }
 }
