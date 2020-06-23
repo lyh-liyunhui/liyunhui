@@ -6,7 +6,7 @@ package com.gdkj.stack;
 public class Calculator {
 
     public static void main(String[] args) {
-        String expression="3+2*6-2";
+        String expression="30+2*6-2";
         ArrayStack2 number = new ArrayStack2(10);
         ArrayStack2 operStack = new ArrayStack2(10);
 
@@ -17,6 +17,7 @@ public class Calculator {
         int oper=0;
         int res=0;
         char ch= ' ';
+        String keepNum="";
         while (true){
             ch =expression.substring(index,index+1).charAt(0);
             if(operStack.isOper(ch)){
@@ -38,7 +39,17 @@ public class Calculator {
                     operStack.push(ch);
                 }
             }else {
-                number.push(ch-48);
+                /*number.push(ch-48);*/
+                keepNum +=ch;
+                if(index==expression.length()-1){
+                    number.push(Integer.parseInt(keepNum));
+                }else {
+
+                if(operStack.isOper(expression.substring(index+1,index+2).charAt(0))){
+                    number.push(Integer.parseInt(keepNum));
+                    keepNum="";
+                 }
+                }
             }
             index++;
             if(index>=expression.length()){
