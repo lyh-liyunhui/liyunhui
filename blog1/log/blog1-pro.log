@@ -1,0 +1,4 @@
+2020-11-25 11:02:44.077  INFO 8312 --- [restartedMain] com.lyh.BlogApplication                  : Starting BlogApplication on DESKTOP-GQNPKFG with PID 8312 (F:\ideaProject\blog1\target\classes started by Administrator in F:\ideaProject\blog1)
+2020-11-25 11:02:44.078  INFO 8312 --- [restartedMain] com.lyh.BlogApplication                  : The following profiles are active: pro
+2020-11-25 11:02:46.302  WARN 8312 --- [restartedMain] .t.AbstractTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-11-25 11:02:46.671  INFO 8312 --- [restartedMain] com.lyh.BlogApplication                  : Started BlogApplication in 2.816 seconds (JVM running for 3.114)
